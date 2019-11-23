@@ -496,14 +496,6 @@ class Torus extends Shape                                         // Build a don
         Surface_Of_Revolution.insert_transformed_copy_into( this, [ rows, columns, circle_points ] );         
       } }
 
-window.Semisphere = window.classes.Semisphere = 
-class Semisphere extends Shape
-{ constructor()
-    { super( "positions", "normals", "texture_coords" );
-
-    }
-
-}
 
 window.Surface_Of_Revolution2 = window.classes.Surface_Of_Revolution2 =
 class Surface_Of_Revolution2 extends Grid_Patch      // SURFACE OF REVOLUTION: Produce a curved "sheet" of triangles with rows and columns.
@@ -519,3 +511,35 @@ class Surface_Of_Revolution2 extends Grid_Patch      // SURFACE OF REVOLUTION: P
     }
 }
 
+window.MyShape = window.classes.MyShape =
+class MyShape extends Shape           // With lattitude / longitude divisions; this means singularities are at 
+{ constructor( rows, columns, angle )  
+  { 
+    super( "positions", "normals", "texture_coords" );
+    this.angle = angle;
+    const circle_points = Array( rows ).fill( Vec.of( 0,0,1 ) )
+                                       .map( (p,i,a) => Mat4.rotation( i/(a.length-1) * Math.PI / 5 * this.angle, Vec.of( 0,1,0 ) )
+                                                            .times( p.to4(1) ).to3() );
+    Surface_Of_Revolution.insert_transformed_copy_into( this, [ rows, columns, circle_points, ,2*Math.PI ] );         
+  } }
+
+window.MyShape2 = window.classes.MyShape2 =
+class MyShape2 extends Shape           // With lattitude / longitude divisions; this means singularities are at 
+{ constructor( rows, columns )  
+  { super( "positions", "normals", "texture_coords" );
+    const circle_points = Array( rows ).fill( Vec.of( 0,1,0 ) )
+                                       .map( (p,i,a) => Mat4.translation([0,0,i/(a.length-1)])
+                                                .times( p.to4(1) ).to3() );
+    Surface_Of_Revolution.insert_transformed_copy_into( this, [ rows, columns, circle_points, ,2*Math.PI ] );         
+  } }
+
+window.Semisphere = window.classes.Semisphere =
+class Semisphere extends Shape           // With lattitude / longitude divisions; this means singularities are at 
+{ constructor( rows, columns )  
+  { super( "positions", "normals", "texture_coords" );
+    const circle_points = Array( rows ).fill( Vec.of( 1,0,0 ) )
+                                       .map( (p,i,a) => Mat4.rotation( i/(a.length-1) * Math.PI / 2, Vec.of( 0,1,0 ) )
+                                                .times( p.to4(1) ).to3() );
+    Surface_Of_Revolution.insert_transformed_copy_into( this, [ rows, columns, circle_points, ,2*Math.PI ] );         
+  } }
+  

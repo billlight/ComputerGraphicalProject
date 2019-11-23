@@ -17,19 +17,24 @@ class Assignment_Three_Scene extends Scene_Component
                          sphere2: new (Subdivision_Sphere.prototype.make_flat_shaded_version())(2), 
                          sphere3: new Subdivision_Sphere (3),
                          sphere4: new Subdivision_Sphere (4),
-                         myshape: new MyShape
+                         myshape: new MyShape(20,20, Math.PI),
+                         myshape2: new MyShape2(20,20),
+                         semishpere: new Semisphere(20,20)
                                 // TODO:  Fill in as many additional shape instances as needed in this key/value table.
                                 //        (Requirement 1)
                        }
+        this.context = context;
         this.submit_shapes( context, shapes );
                                      
                                      // Make some Material objects available to you:
         this.materials =
           { test:     context.get_instance( Phong_Shader ).material( Color.of( 1,1,0,1 ), { ambient:.2 } ),
+            test2:     context.get_instance( Phong_Shader ).material( Color.of( 1,1,0,1 ), { ambient:.8 } ),
             ring:     context.get_instance( Ring_Shader  ).material(),
             mainYellow:      context.get_instance( Phong_Shader ).material( Color.of( 1, 1, 0, 1 ), { ambient: 1 } ),
             eye:      context.get_instance( Phong_Shader ).material( Color.of( 0, 0, 0, 1 ), { ambient: 1 } ),
             mouth:    context.get_instance( Phong_Shader ).material( Color.of( 1, 0.2, 0.2, 1 ), { ambient: 1 } ),
+            monster:  context.get_instance( Phong_Shader ).material( Color.of( 1, 0, 0, 1 ), { ambient: 1 } )
                                 // TODO:  Fill in as many additional material objects as needed in this key/value table.
                                 //        (Requirement 1)
           }
@@ -44,7 +49,7 @@ class Assignment_Three_Scene extends Scene_Component
         const t = graphics_state.animation_time / 1000, dt = graphics_state.animation_delta_time / 1000;
 
         let model_transform = Mat4.identity();
-        this.shapes.sphere4.draw( graphics_state, model_transform, this.materials.mainYellow);
+        this.shapes.sphere4.draw( graphics_state, model_transform, this.materials.test2);
 
         let model_transform1 = Mat4.identity().times( Mat4.scale([0.25, 0.25, 0.25]) 
                                          .times(Mat4.translation([1.65,2.2,1.8])));
@@ -53,31 +58,35 @@ class Assignment_Three_Scene extends Scene_Component
         let model_transform2 = Mat4.identity().times( Mat4.scale([0.25, 0.25, 0.25]) 
                                          .times(Mat4.translation([-1.65,2.2,1.8])));
         this.shapes.sphere4.draw( graphics_state, model_transform2, this.materials.eye);
+
+        let model_transform3 = Mat4.identity().times( Mat4.scale([0.15, 0.15, 0.35]) 
+                                         .times(Mat4.translation([0,3.5,2.2])));
+        this.shapes.sphere4.draw( graphics_state, model_transform3, this.materials.mainYellow);
+
+        let model_transform5 = Mat4.identity().times( Mat4.rotation(Math.PI/10,Vec.of(1, 0, 0) ))
+                                              .times( Mat4.scale([1.01, 1.01, 1.01]) )
+                                              .times(Mat4.translation([0,0,0]));
+
+        this.shapes.myshape = new MyShape(20, 20, 0.5+ 0.5 * Math.sin(4*t));
+
+        this.context.shapes_in_use.myshape = this.shapes.myshape;
+        this.submit_shapes( this.context, this.shapes );
         
-        //let model_transform3 = Mat4.identity().times( Mat4.scale([0.25, 0.25, 0.25]));
-        //this.shapes.torus.draw( graphics_state, model_transform3, this.materials.eye);
-        //let model_transform4 = model_transform.times( Mat4.scale([1, 0.1* (8 * Math.sin(2*Math.PI*t)), 1.05]));
-        //this.shapes.sphere4.draw( graphics_state, model_transform4, this.materials.mouth);
-        
-        this.shapes.myshape.draw( graphics_state, model_transform.times(Mat4.translation([3,0,0])), this.materials.mouth);
+
+        this.shapes.myshape.draw( graphics_state, model_transform5, this.materials.mouth);
 
 
-        let model_transform5 = Mat4.identity().times( Mat4.scale([1, 0.0001, 1]) )
-                                              .times( Mat4.scale([1, 1, 1]) )
-                                              .times( Mat4.translation([3,0,0]));
-        //this.shapes.sphere4.draw( graphics_state, model_transform5, this.materials.mouth);                                      
+        let model_transform6 = Mat4.identity().times( Mat4.translation([3,1+0.5*Math.sin(3*t),0]))
+                                              .times( Mat4.scale([1,1,1]) )
+                                              .times( Mat4.rotation(Math.PI/2,Vec.of(1, 0, 0) ) )
+                                              ;
+        
+        this.shapes.myshape2.draw( graphics_state, model_transform6, this.materials.monster );     
+                                         
+        this.shapes.semishpere.draw( graphics_state, model_transform.times(Mat4.translation([3,1+0.5*Math.sin(3*t),0]).times( Mat4.rotation(Math.PI/2,Vec.of(1, 0, 0) ) )), this.materials.monster );
       }
   }
 
-window.MyShape = window.classes.MyShape =
-class MyShape extends Shape           // With lattitude / longitude divisions; this means singularities are at 
-{ constructor( rows, columns )  
-  { super( "positions", "normals", "texture_coords" );
-    const circle_points = Array( rows ).fill( Vec.of( 1,0,0 ) )
-                                       .map( (p,i,a) => Mat4.rotation( i/(a.length-1) * Math.PI / 2, Vec.of( 0,-1,0 ) )
-                                                .times( p.to4(1) ).to3() );
-    Surface_Of_Revolution.insert_transformed_copy_into( this, [ rows, columns, circle_points, ,Math.PI ] );         
-  } }
 
   
 
