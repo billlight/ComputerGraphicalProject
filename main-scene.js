@@ -76,14 +76,22 @@ class Assignment_Three_Scene extends Scene_Component
         this.shapes.myshape.draw( graphics_state, model_transform5, this.materials.mouth);
 
 
-        let model_transform6 = Mat4.identity().times( Mat4.translation([3,1+0.5*Math.sin(3*t),0]))
+        let model_transform6 = Mat4.identity().times( Mat4.translation([3,0,0]))
                                               .times( Mat4.scale([1,1,1]) )
                                               .times( Mat4.rotation(Math.PI/2,Vec.of(1, 0, 0) ) )
                                               ;
+        let model_transform7 = Mat4.identity().times( Mat4.translation([3,0,0]))
+                                              .times( Mat4.scale([0.3,0.3,0.3]) )
+                                              .times(Mat4.translation([-1.15,0.75,2.2]));
+        this.shapes.sphere4.draw( graphics_state, model_transform7, this.materials.eye);
+        let model_transform8 = Mat4.identity().times( Mat4.translation([3,0,0]))
+                                              .times( Mat4.scale([0.3,0.3,0.3]) )
+                                              .times(Mat4.translation([1.15,0.75,2.2]));        
+        this.shapes.sphere4.draw( graphics_state, model_transform8, this.materials.eye);
         
         this.shapes.myshape2.draw( graphics_state, model_transform6, this.materials.monster );     
                                          
-        this.shapes.semishpere.draw( graphics_state, model_transform.times(Mat4.translation([3,1+0.5*Math.sin(3*t),0]).times( Mat4.rotation(Math.PI/2,Vec.of(1, 0, 0) ) )), this.materials.monster );
+        this.shapes.semishpere.draw( graphics_state, model_transform.times(Mat4.translation([3,0,0]).times( Mat4.rotation(Math.PI/2,Vec.of(1, 0, 0) ) )), this.materials.monster );
       }
   }
 
