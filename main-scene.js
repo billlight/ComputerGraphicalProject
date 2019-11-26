@@ -25,7 +25,7 @@ class Assignment_Three_Scene extends Scene_Component
                        }
         this.context = context;
         this.submit_shapes( context, shapes );
-                                     
+        this.death = false;
                                      // Make some Material objects available to you:
         this.materials =
           { test:     context.get_instance( Phong_Shader ).material( Color.of( 1,1,0,1 ), { ambient:.2 } ),
@@ -61,7 +61,7 @@ class Assignment_Three_Scene extends Scene_Component
 
         let model_transform3 = Mat4.identity().times( Mat4.scale([0.15, 0.15, 0.35]) 
                                          .times(Mat4.translation([0,3.5,2.2])));
-        this.shapes.sphere4.draw( graphics_state, model_transform3, this.materials.mainYellow);
+        if(this.death = false) {this.shapes.sphere4.draw( graphics_state, model_transform3, this.materials.mainYellow);}
 
         //
         let model_transform9 = Mat4.identity().times( Mat4.rotation(Math.PI/2,Vec.of(0, 1, 0) ))
@@ -72,7 +72,7 @@ class Assignment_Three_Scene extends Scene_Component
         this.context.shapes_in_use.myshape = this.shapes.myshape;
         this.submit_shapes( this.context, this.shapes );        
 
-        this.shapes.myshape.draw( graphics_state, model_transform9, this.materials.mouth);
+        if(this.death = false){this.shapes.myshape.draw( graphics_state, model_transform9, this.materials.mouth)};
         //
         //
         let model_transform10 = Mat4.identity().times( Mat4.rotation(Math.PI/2,Vec.of(0, 1, 0) ))
@@ -82,10 +82,50 @@ class Assignment_Three_Scene extends Scene_Component
         this.shapes.myshape = new MyShape(20, 20,  -0.35- 0.3 * Math.sin(4*t));
         this.context.shapes_in_use.myshape = this.shapes.myshape;
         this.submit_shapes( this.context, this.shapes );        
-
-        this.shapes.myshape.draw( graphics_state, model_transform10, this.materials.mouth);
+this.death = true//death animation
+        if(this.death = false){this.shapes.myshape.draw( graphics_state, model_transform10, this.materials.mouth);}
+        //method1
+//         if(this.death = true){
+//           let model_transform11 = Mat4.identity().times( Mat4.rotation(Math.PI/2,Vec.of(0, 1, 0) ))
+//                                                .times( Mat4.rotation(Math.PI*1.1,Vec.of(0, 0, 1) ))
+//                                                .times( Mat4.scale([1.11,1.11,1.11]) );
+//           var x = t;
+//           if (t < 3.5) {x = -1*t} else{x = -3.5}
+//           this.shapes.myshape = new MyShape(20, 20,  x);
+//           this.context.shapes_in_use.myshape = this.shapes.myshape;
+//           this.submit_shapes( this.context, this.shapes );   
+//           this.shapes.myshape.draw( graphics_state, model_transform11, this.materials.mouth.override({ color: Color.of( 0,0,0,1 ) }) );
+          
+//           //another half
+//           let model_transform12 = Mat4.identity().times( Mat4.rotation(Math.PI/2,Vec.of(0, 1, 0) ))
+//                                                .times( Mat4.rotation(Math.PI*1.1,Vec.of(0, 0, 1) ))
+//                                                .times( Mat4.scale([1.11,1.11,1.11]) );
+//           var x = t;
+//           if (t < 3.5) {x = 1*t} else{x = 3.5}
+//           this.shapes.myshape = new MyShape(20, 20,  x);
+//           this.context.shapes_in_use.myshape = this.shapes.myshape;
+//           this.submit_shapes( this.context, this.shapes );   
+//           this.shapes.myshape.draw( graphics_state, model_transform12, this.materials.mouth.override({ color: Color.of( 0,0,0,1 ) }) );
+          
+          //method2
+          if(this.death = true){
+            let model_transform13 = Mat4.identity().times( Mat4.rotation(Math.PI/2,Vec.of(0, 1, 0) ))
+                                                   .times( Mat4.scale([1.05,1.05,1.05]) )
+                                                   .times( Mat4.translation([0,1,0]) )
+                                                   .times( Mat4.rotation(t%2,Vec.of(1, 0, 0) ))
+                                                   .times( Mat4.translation([0,-1,0]) );
+            this.shapes.semishpere.draw( graphics_state, model_transform13, this.materials.mouth.override({ color: Color.of( 1,0,0,1 ) }) );
+            let model_transform14 = Mat4.identity().times( Mat4.rotation(Math.PI*3/2,Vec.of(0, 1, 0) ))
+                                                   .times( Mat4.scale([1.05,1.05,1.05]) )
+                                                  .times( Mat4.translation([0,1,0]) )
+                                                   .times( Mat4.rotation(t%2,Vec.of(1, 0, 0) ))
+                                                   .times( Mat4.translation([0,-1,0]) );
+            this.shapes.semishpere.draw( graphics_state, model_transform14, this.materials.mouth.override({ color: Color.of( 1,0,0,1 ) }) );
+          }
         //
+        
 
+        //
         let model_transform6 = Mat4.identity().times( Mat4.translation([3,0,0]))
                                               .times( Mat4.scale([1,1,1]) )
                                               .times( Mat4.rotation(Math.PI/2,Vec.of(1, 0, 0) ) )
@@ -96,12 +136,14 @@ class Assignment_Three_Scene extends Scene_Component
         //this.shapes.sphere4.draw( graphics_state, model_transform7, this.materials.eye);
         let model_transform8 = Mat4.identity().times( Mat4.translation([3,0,0]))
                                               .times( Mat4.scale([0.3,0.3,0.3]) )
-                                              .times(Mat4.translation([1.15,0.75,2.2]));        
+                                              .times(Mat4.translation([1.15,0.75,2.2]));
+                                                      
         //this.shapes.sphere4.draw( graphics_state, model_transform8, this.materials.eye);
         
         //this.shapes.myshape2.draw( graphics_state, model_transform6, this.materials.monster );     
                                          
         //this.shapes.semishpere.draw( graphics_state, model_transform.times(Mat4.translation([3,0,0]).times( Mat4.rotation(Math.PI/2,Vec.of(1, 0, 0) ) )), this.materials.monster );
+        
       }
   }
 
