@@ -511,16 +511,15 @@ class Surface_Of_Revolution2 extends Grid_Patch      // SURFACE OF REVOLUTION: P
     }
 }
 
+
 window.MyShape = window.classes.MyShape =
 class MyShape extends Shape           // With lattitude / longitude divisions; this means singularities are at 
 { constructor( rows, columns, angle )  
-  { 
-    super( "positions", "normals", "texture_coords" );
-    this.angle = angle;
-    const circle_points = Array( rows ).fill( Vec.of( 0,0,1 ) )
-                                       .map( (p,i,a) => Mat4.rotation( i/(a.length-1) * Math.PI/5 , Vec.of( 0,1,0 ) )                                   
-                                                            .times( p.to4(1) ).to3() );
-    Surface_Of_Revolution.insert_transformed_copy_into( this, [ rows, columns, circle_points, ,Math.PI ] );         
+  { super( "positions", "normals", "texture_coords" );
+    const circle_points = Array( rows ).fill( Vec.of( 1,0,0 ) )
+                                       .map( (p,i,a) => Mat4.rotation( i/(a.length-1) * Math.PI - 0.5 * Math.PI , Vec.of( 0,1,0 ) )
+                                                .times( p.to4(1) ).to3() );
+    Surface_Of_Revolution.insert_transformed_copy_into( this, [ rows, columns, circle_points, , angle ] );         
   } }
 
 window.MyShape2 = window.classes.MyShape2 =
