@@ -49,7 +49,7 @@ class Assignment_Three_Scene extends Scene_Component
         const t = graphics_state.animation_time / 1000, dt = graphics_state.animation_delta_time / 1000;
 
         let model_transform = Mat4.identity();
-        this.shapes.sphere4.draw( graphics_state, model_transform, this.materials.test2);
+        //this.shapes.sphere4.draw( graphics_state, model_transform, this.materials.test2);
 
         let model_transform1 = Mat4.identity().times( Mat4.scale([0.25, 0.25, 0.25]) 
                                          .times(Mat4.translation([1.65,2.2,1.8])));
@@ -64,17 +64,30 @@ class Assignment_Three_Scene extends Scene_Component
         this.shapes.sphere4.draw( graphics_state, model_transform3, this.materials.mainYellow);
 
         let model_transform5 = Mat4.identity().times( Mat4.rotation(Math.PI/10,Vec.of(1, 0, 0) ))
-                                              .times( Mat4.scale([1.01, 1.01, 1.01]) )
+                                              .times( Mat4.scale([1,1,1]) )
                                               .times(Mat4.translation([0,0,0]));
 
-        this.shapes.myshape = new MyShape(20, 20, 0.5+ 0.5 * Math.sin(4*t));
-
+        //this.shapes.myshape = new MyShape(20, 20, 0.5+ 0.5 * Math.sin(4*t));
+        this.shapes.myshape = new MyShape(20, 20, 0.5+0.5*Math.sin(t));
         this.context.shapes_in_use.myshape = this.shapes.myshape;
-        this.submit_shapes( this.context, this.shapes );
-        
+        this.submit_shapes( this.context, this.shapes );        
 
         this.shapes.myshape.draw( graphics_state, model_transform5, this.materials.mouth);
 
+//
+        let model_transform4 = Mat4.identity().times( Mat4.rotation(Math.PI,Vec.of(0, 0, 1) ))
+                                              .times( Mat4.rotation(-Math.PI/10,Vec.of(1, 0, 0) ))
+                                              .times( Mat4.scale([1,0.5 + 0.5 *Math.sin(t),1]) )
+                                              .times(Mat4.translation([0,0,0]));
+
+        //this.shapes.myshape = new MyShape(20, 20, 0.5+ 0.5 * Math.sin(4*t));
+        this.shapes.myshape = new MyShape(20, 20, 1);
+        this.context.shapes_in_use.myshape = this.shapes.myshape;
+        this.submit_shapes( this.context, this.shapes );
+        this.shapes.myshape.draw( graphics_state, model_transform4, this.materials.mouth);
+
+
+//
 
         let model_transform6 = Mat4.identity().times( Mat4.translation([3,0,0]))
                                               .times( Mat4.scale([1,1,1]) )
@@ -83,15 +96,15 @@ class Assignment_Three_Scene extends Scene_Component
         let model_transform7 = Mat4.identity().times( Mat4.translation([3,0,0]))
                                               .times( Mat4.scale([0.3,0.3,0.3]) )
                                               .times(Mat4.translation([-1.15,0.75,2.2]));
-        this.shapes.sphere4.draw( graphics_state, model_transform7, this.materials.eye);
+        //this.shapes.sphere4.draw( graphics_state, model_transform7, this.materials.eye);
         let model_transform8 = Mat4.identity().times( Mat4.translation([3,0,0]))
                                               .times( Mat4.scale([0.3,0.3,0.3]) )
                                               .times(Mat4.translation([1.15,0.75,2.2]));        
-        this.shapes.sphere4.draw( graphics_state, model_transform8, this.materials.eye);
+        //this.shapes.sphere4.draw( graphics_state, model_transform8, this.materials.eye);
         
-        this.shapes.myshape2.draw( graphics_state, model_transform6, this.materials.monster );     
+        //this.shapes.myshape2.draw( graphics_state, model_transform6, this.materials.monster );     
                                          
-        this.shapes.semishpere.draw( graphics_state, model_transform.times(Mat4.translation([3,0,0]).times( Mat4.rotation(Math.PI/2,Vec.of(1, 0, 0) ) )), this.materials.monster );
+        //this.shapes.semishpere.draw( graphics_state, model_transform.times(Mat4.translation([3,0,0]).times( Mat4.rotation(Math.PI/2,Vec.of(1, 0, 0) ) )), this.materials.monster );
       }
   }
 
