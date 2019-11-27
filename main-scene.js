@@ -109,15 +109,17 @@ this.death = true//death animation
           
           //method2
           if(this.death = true){
-            let model_transform13 = Mat4.identity().times( Mat4.rotation(Math.PI/2,Vec.of(0, 1, 0) ))
+            let model_transform13 = Mat4.identity().times( Mat4.rotation(Math.PI,Vec.of(0, 0, 1) ))
+                                                   .times( Mat4.rotation(Math.PI/2,Vec.of(0, 1, 0) ))
                                                    .times( Mat4.scale([1.05,1.05,1.05]) )
                                                    .times( Mat4.translation([0,1,0]) )
                                                    .times( Mat4.rotation(t%2,Vec.of(1, 0, 0) ))
                                                    .times( Mat4.translation([0,-1,0]) );
             this.shapes.semishpere.draw( graphics_state, model_transform13, this.materials.mouth.override({ color: Color.of( 1,0,0,1 ) }) );
-            let model_transform14 = Mat4.identity().times( Mat4.rotation(Math.PI*3/2,Vec.of(0, 1, 0) ))
+            let model_transform14 = Mat4.identity().times( Mat4.rotation(Math.PI,Vec.of(0, 0, 1) ))
+                                                   .times( Mat4.rotation(Math.PI*3/2,Vec.of(0, 1, 0) ))
                                                    .times( Mat4.scale([1.05,1.05,1.05]) )
-                                                  .times( Mat4.translation([0,1,0]) )
+                                                   .times( Mat4.translation([0,1,0]) )
                                                    .times( Mat4.rotation(t%2,Vec.of(1, 0, 0) ))
                                                    .times( Mat4.translation([0,-1,0]) );
             this.shapes.semishpere.draw( graphics_state, model_transform14, this.materials.mouth.override({ color: Color.of( 1,0,0,1 ) }) );
